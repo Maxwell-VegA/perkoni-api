@@ -21,8 +21,19 @@ class ProductFactory extends Factory
      */
     public function definition()
     {
-        return [
-            //
-        ];
+        $factory->define(App\Models\Product::class, function(Faker $faker){
+            return [
+                'user_id' => 1,
+                'confirmed' => true,
+                'title' => $faker->text(86),
+                'base_price' => $faker->randomDigit(),
+                'category' => $faker->word(),
+                'description' => $faker->paragraph(),
+                'taggs' => $faker->text(24),
+                'created_at' => now(),
+                'updated_at' => now(),
+                
+            ];
+        });
     }
 }

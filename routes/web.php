@@ -18,9 +18,7 @@ use App\Http\Controllers\ProductController;
 |
 */
 
-Route::get('/', function() {
-    return view('welcome');
-})->name('home');
+Route::get('/', [ProductController::class, 'index'])->name('home');
 
 Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
 
@@ -34,8 +32,6 @@ Route::post('/logout', [LogoutController::class, 'store'])->name('logout');
 Route::get('/register', [RegisterController::class, 'index'])->name('register');
 Route::post('/register', [RegisterController::class, 'store']);
 
-Route::get('/products', [ProductController::class, 'index'])->name('products');
 Route::get('/products/create', [ProductController::class, 'create'])->middleware('auth');
-Route::get('/products/{id}', [ProductController::class, 'show']);
-Route::post('/products', [ProductController::class, 'store'])->middleware('auth');
+Route::post('/products', [ProductController::class, 'store'])->middleware('auth')->name('products');
 

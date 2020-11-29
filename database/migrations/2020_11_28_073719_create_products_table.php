@@ -17,14 +17,15 @@ class CreateProductsTable extends Migration
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
             $table->boolean('confirmed');
-            $table->string('title', 255);
+            $table->string('title');
             $table->integer('base_price');
+            $table->string('category');
             $table->text('description');
             $table->jsonb('materials');
             $table->jsonb('sizes');
-            $table->string('category');
-            // perhaps category should be pulled in from another table?
+            $table->jsonb('taggs');
             $table->timestamps();
+            // perhaps category should be pulled in from another table?
 
         });
     }

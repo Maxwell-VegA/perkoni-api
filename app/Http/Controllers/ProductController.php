@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
+use App\Http\Requests;
 use App\Models\Product;
 use App\Http\Resources\Product as ProductResource;
 
@@ -15,11 +16,13 @@ class ProductController extends Controller
      */
     public function index()
     {
-        $products = Product::get();
-
-        return view('products.index', [
-            'products' => $products
-        ]);
+        return view('products.index');
+    }
+    
+    public function indexAPI()
+    {
+        $products = Product::paginate(3);
+        return new ProductResource($products);
     }
 
     /**
@@ -46,9 +49,23 @@ class ProductController extends Controller
         ]);
 
         $request->user()->products()->create([
+            'confirmed' => true,
             'title' => $request->title,
-            'price' => $request->price,
+            'base_price' => $request->price,
+            'category' => 'uncategorised',
+            // 'description' => $request->description,
+            'description' => 'asdasdasd',
+            'created_at' => now(),
+            'updated_at' => now(),
+            'materials' => json_encode(['color' => 'red']),
+            'sizes' => json_encode(['small', 'medium', 'large']),
+            'taggs' => json_encode(['tag1', 'tag2', 'tag3']),
+
         ]);
+        
+        return redirect('/');
+        // return view('products.index');
+        // include a success message
 
     }
 

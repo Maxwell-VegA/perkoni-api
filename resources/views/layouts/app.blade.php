@@ -11,6 +11,7 @@
 
         <!-- Styles -->
         <link href="{{ asset('css/tailwind.css') }}" rel="stylesheet">
+        <link href="{{ asset('css/app.css') }}" rel="stylesheet">
 
     </head>
 
@@ -22,9 +23,6 @@
                 </li>
                 <li>
                     <a href="{{ route('dashboard') }}" class="p-3">Dashboard</a>
-                </li>
-                <li>
-                    <a href="{{ route('products') }}" class="p-3">Products</a>
                 </li>
             </ul>
             <ul class="flex items-center">
@@ -52,6 +50,5 @@
         
         @yield('body')
 
-        <script src="{{ asset('js/app.js') }}"></script>
     </body>
 </html>
