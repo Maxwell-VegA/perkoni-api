@@ -33,5 +33,5 @@ Route::get('/register', [RegisterController::class, 'index'])->name('register');
 Route::post('/register', [RegisterController::class, 'store']);
 
 Route::get('/products/create', [ProductController::class, 'create'])->middleware('auth');
-Route::post('/products', [ProductController::class, 'store'])->middleware('auth')->name('products');
+Route::post('/products', [ProductController::class, 'store']);
 

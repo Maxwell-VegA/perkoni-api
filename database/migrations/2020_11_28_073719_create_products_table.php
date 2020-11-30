@@ -16,17 +16,23 @@ class CreateProductsTable extends Migration
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->boolean('confirmed');
             $table->string('title');
-            $table->integer('base_price');
-            $table->string('category');
+            // $table->boolean('confirmed');
+            $table->string('mainCategory');
+            $table->string('subcategory');
             $table->text('description');
-            $table->jsonb('materials');
+            $table->boolean('is_new');
+            // research money keeping in sql
+            $table->string('base_price');
+            $table->string('sale_price');
+            $table->boolean('on_sale');
+            $table->jsonb('types');
+            $table->string('operator');
             $table->jsonb('sizes');
             $table->jsonb('taggs');
+            // $table->jsonb('');
+            $table->string('gender');
             $table->timestamps();
-            // perhaps category should be pulled in from another table?
-
         });
     }
 

@@ -11,17 +11,20 @@ class Product extends Model
 
     protected $fillable = [
 
-            'user_id',
-            'confirmed',
-            'title',
-            'base_price',
-            'category',
-            'description',
-            'materials',
-            'sizes',
-            'taggs',
-            'created_at',
-            'updated_at',
+        'user_id',
+        'title',
+        'mainCategory',
+        'subcategory',
+        'description',
+        'is_new',
+        'base_price',
+        'sale_price',
+        'on_sale',
+        'types',
+        'operator',
+        'sizes',
+        'taggs',
+        'gender',
 
     ];
 }
