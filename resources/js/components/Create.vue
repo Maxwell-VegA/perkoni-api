@@ -113,6 +113,7 @@
           </div>
           <label>Atzīmēt kā jaunumu:</label>
             <input v-model="product.new" type="checkbox" id="switch1"><label id="switch1" for="switch1" class="switch">Toggle</label>
+            <input type="file" name="image" id="image">
       </section>
       <!-- still need to add a section for images and image descriptions -->
       <section>
@@ -169,7 +170,7 @@ export default {
                 // something weird with operator starting value
                 sizes: [],
                 // taggs: [],
-                gender: "genderless"
+                gender: "genderless",
                 // likely if the gender is set with the product as clothing then the category changed to something else it doesn't reset to genderless
             },
             categories: {
