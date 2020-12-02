@@ -23,8 +23,8 @@ class CreateProductsTable extends Migration
             $table->text('description');
             $table->boolean('is_new');
             // research money keeping in sql
-            $table->string('base_price');
-            $table->string('sale_price');
+            $table->integer('base_price');
+            $table->integer('sale_price');
             $table->boolean('on_sale');
             $table->jsonb('types');
             $table->string('operator');

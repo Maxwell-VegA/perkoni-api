@@ -6,7 +6,9 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Requests;
 use App\Models\Product;
+use Illuminate\Support\Facades\DB;
 use App\Http\Resources\Product as ProductResource;
+use App\Http\Resources\Products as ProductsResource;
 
 class ProductController extends Controller
 {
@@ -15,15 +17,20 @@ class ProductController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('products.index');
-    }
-    
-    public function indexAPI()
-    {
-        $products = Product::paginate(3);
-        return new ProductResource($products);
+        if ($request->category === 'Jaunumi') {
+            $category = ['is_new', '=', 1] ;
+        }
+        elseif ($request->category === 'Akcijas') {
+            $category = ['on_sale', '=', 1] ;
+        }
+        else {
+            $category = ['mainCategory', '=', $request->category];
+        }
+        // $products = Product::paginate(6);
+        $products = DB::table('products')->where($category[0], $category[1], $category[2])->paginate(12);
+        return new ProductsResource($products);
     }
     
     /**
@@ -33,7 +40,9 @@ class ProductController extends Controller
      */
     public function create()
     {
+
         return view('products.create');
+
     }
     
     /**
@@ -44,32 +53,32 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request);
 
-        // $this->validate($request, [
-        //     'title' => 'required|string|max:255',
-        //     'mainCategory'  => 'required|string|max:255',
-        //     'subcategory'   => 'required|string|max:255',
-        //     'description'   => 'required|string|max:65,535',
-        //     'new'           => 'required|boolean',
-        //     // 'base_price'    => 'required|integer',
-        //     // 'sale_price'    => 'required|integer',
-        //     'on_sale'       => 'required|boolean',
-        //     'types'         => 'required|array',
-        //     'operator'      => 'required|boolean',
-        //     'sizes'         => 'required|array',
-        //     'taggs'         => 'required|array',
-        //     'gender'        => 'nullable|string|max:255',
-        // ]);
+        // public function authorize() {
+        //     return "hey";
+        // }
+        $this->middleware('auth');
 
-        // $data = $request->validate([
-        //     // 'user_id' => auth()->id()
-        //     'title' => 'required|string'
+        $this->validate($request, [
+            'title'         => 'required|string|max:255',
+            'mainCategory'  => 'required|string|max:255',
+            'subcategory'   => 'required|string|max:255',
+            'description'   => 'required|string|max:65535',
+            'is_new'        => 'required|boolean',
+            'base_price'    => 'required|string',
+            'sale_price'    => 'required|integer',
+            'on_sale'       => 'required|boolean',
+            'types'         => 'required|array',
+            'operator'      => 'required|boolean',
+            'sizes'         => 'required|array',
+            // 'taggs'         => 'required|array',
+            'gender'        => 'nullable|string|max:255',
+        ],[
+            'title.required' => 'This is a custom error message for the title required error.'
+        ]);
+
+       // auth()->user()->posts()->create([]);
         
-        // ]);
-        
-        // auth()->user()->posts()->create([]);
-
         $product = Product::create([
             // 'user_id' => $request->user_id,
             'user_id' => $request->user_id,
@@ -93,72 +102,9 @@ class ProductController extends Controller
             'gender' => $request->gender,
         ]);
 
-        // $data->user()->products()->create([
-        //     'confirmed' => true,
-        //     'title' => $request->title,
-        //     'base_price' => 86,
-        //     'category' => 'uncategorised',
-        //     'description' => 'description',
-        //     'description' => 'asdasdasd',
-        //     'created_at' => now(),
-        //     'updated_at' => now(),
-        //     'materials' => json_encode(['color' => 'red']),
-        //     'sizes' => json_encode(['small', 'medium', 'large']),
-        //     'taggs' => json_encode(['tag1', 'tag2', 'tag3']),
-
-        // ]);
-        // dd($product);
         return response($product, 201);
 
-        // $parsed = json_decode($request->data);
-        // dd($request);
-        
-
-            
-        // $products = Product::paginate(3);
-        // return new ProductResource($products);
-
-        // dd();
-        
-
-        
-        // $rules = [
-        //     // 'data' => 'required|string|max:255',
-        //     'title' => 'required|string|max:255',
-        //     // 'mainCategory'  => 'required|string|max:255',
-        //     // 'subcategory'   => 'required|string|max:255',
-        //     // 'description'   => 'required|string|max:65,535',
-        //     // 'new'           => 'required|boolean',
-        //     // // 'base_price'    => 'required|integer',
-        //     // // 'sale_price'    => 'required|integer',
-        //     // 'on_sale'       => 'required|boolean',
-        //     // 'types'         => 'required|array',
-        //     // 'operator'      => 'required|boolean',
-        //     // 'sizes'         => 'required|array',
-        //     // 'gender'        => 'nullable|string|max:255',
-        // ];
-        
-        // $this->validate($request, $rules);
-
-        // return redirect()->route('home');
-        // Validator::make($request->all(), $rules);
-
-        // if ($validator->passes()) {
-        //     // dd('success');
-        //     return 'hellow';
-        // }
-        // else {
-        //     return 'hellow';
-        //     // dd('failed');
-        // }
-
-
-        // dd($request);
-
-        
-
-
-        // return view('products.index');
+        // return view('products.index.id');
         // include a success message
 
     }
@@ -173,9 +119,7 @@ class ProductController extends Controller
     {
         $product = Product::findOrFail($id);
         return new ProductResource($product);
-        // return view('products.show', [
-        //     'product' => productJSON()
-        // ]);
+        // perhaps I should format the types and sizes arrays in php instead of js 
     }
 
     /**

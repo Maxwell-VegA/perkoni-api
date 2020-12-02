@@ -5,6 +5,7 @@
           <!-- Product basic properties -->
         <label for="product">Produkta nosaukums:</label>
             <input v-model="product.title" type="text" name="title" id="title">
+            <b v-if="errors.title">{{ errors.title }}</b>
         <label for="mainCategory">Produkta kategorija:</label>
             <select v-model="product.mainCategory" name="category" id="category">
                 <option
@@ -138,6 +139,7 @@
             <button type="submit">Submit form</button>
           </form> -->
           <button @click="directPublish">Direct Publish</button>
+          {{ errors }}
       </section>
     <!-- { "title": "The Cool Hoodie", "mainCategory": "Drēbes", "subcategory": "Džemperi", "description": "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum. ", "new": false, "base_price": "30", "sale_price": "20", "on_sale": false, "types": [ { "typeName": "basic", "typePrice": 0, "typeSecondary": [ "sarkans", " balts", " peleks" ] }, { "typeName": "extra cool", "typePrice": "5", "typeSecondary": [ "sarkans", " melns", " balts", "" ] } ], "operator": true, "sizes": [ { "size": "S", "sizePrice": "0" }, { "size": "M", "sizePrice": "0" }, { "size": "L", "sizePrice": 3 }, { "size": "XL", "sizePrice": "5" } ], "gender": "genderless", "user_id": "1" } -->
   </div>
@@ -146,6 +148,7 @@
 export default {
     data() {
         return {
+            errors: {},
             jsonInput: "",
             mPrice: "",
             clean: [],
@@ -211,7 +214,7 @@ export default {
                     // was it not possible to just for loop through this crap?
                 })
                 .then(res => console.log(res))
-                .catch(err => console.log(err))
+                .catch(err => this.errors = err.response.data.errors)
         },
         addType() {
             const newType = {
