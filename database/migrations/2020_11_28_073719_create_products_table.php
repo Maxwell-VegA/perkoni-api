@@ -6,41 +6,40 @@ use Illuminate\Support\Facades\Schema;
 
 class CreateProductsTable extends Migration
 {
-    /**
-     * Run the migrations.
-     *
-     * @return void
-     */
+    
     public function up()
+    // $defaultImgArr = json_encode([{fileName: 'photo_1607001055.jpg'}]);
+    // $defaultImgArr = [];
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->constrained()->onDelete('cascade');
-            $table->string('title');
-            // $table->boolean('confirmed');
-            $table->string('mainCategory');
-            $table->string('subcategory');
+            $table->string('title', 255);
+            $table->boolean('isPublic');
+            $table->boolean('isConfirmed')->nullable();
+            $table->boolean('toBeDeleted')->default(false);
+            // $table->softDeletes('deleted_at', 0);	
+            $table->string('mainCategory', 50);
+            $table->string('subcategory', 50);
             $table->text('description');
             $table->boolean('is_new');
             // research money keeping in sql
-            $table->integer('base_price');
-            $table->integer('sale_price');
+            $table->float('base_price', 8, 2);
+            $table->float('sale_price', 8, 2);
             $table->boolean('on_sale');
+            // $table->boolean('operatorIsMultiply');
+            $table->boolean('operatorIsMultiply');
             $table->jsonb('types');
-            $table->string('operator');
             $table->jsonb('sizes');
             $table->jsonb('taggs');
-            // $table->jsonb('');
-            $table->string('gender');
+            // ->default(new Expression('(JSON_ARRAY())'))
+            // Tecincally though these aren't json objects. They are arrays of objects (maybe not even json objects).
+            $table->string('gender', 255)->default('genderless');
+            $table->jsonb('images')->nullable();
             $table->timestamps();
         });
     }
 
-    /**
-     * Reverse the migrations.
-     *
-     * @return void
-     */
     public function down()
     {
         Schema::dropIfExists('products');

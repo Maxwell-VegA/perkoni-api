@@ -13,6 +13,9 @@ class Product extends Model
 
         'user_id',
         'title',
+        'isPublic',
+        'isConfirmed',
+        'toBeDeleted',
         'mainCategory',
         'subcategory',
         'description',
@@ -20,11 +23,12 @@ class Product extends Model
         'base_price',
         'sale_price',
         'on_sale',
+        'operatorIsMultiply',
         'types',
-        'operator',
         'sizes',
         'taggs',
         'gender',
+        'images',
 
     ];
 }

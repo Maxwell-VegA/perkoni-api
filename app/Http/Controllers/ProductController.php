@@ -54,25 +54,25 @@ class ProductController extends Controller
     public function store(Request $request)
     {
 
-        // public function authorize() {
-        //     return "hey";
-        // }
         // $this->middleware('auth');
 
         $this->validate($request, [
             'title'         => 'required|string|max:255',
-            'mainCategory'  => 'required|string|max:255',
-            'subcategory'   => 'required|string|max:255',
+            'isPublic'      => 'required|boolean',
+            'isConfirmed'   => 'nullable|boolean',
+            'mainCategory'  => 'required|string|max:50',
+            'subcategory'   => 'required|string|max:50',
             'description'   => 'required|string|max:65535',
             'is_new'        => 'required|boolean',
-            'base_price'    => 'required|string',
-            'sale_price'    => 'required|integer',
+            'base_price'    => 'required|numeric',
+            'sale_price'    => 'required|numeric',
             'on_sale'       => 'required|boolean',
+            'operatorIsMultiply' => 'required|boolean',
             'types'         => 'required|array',
-            'operator'      => 'required|boolean',
             'sizes'         => 'required|array',
-            // 'taggs'         => 'required|array',
+            'taggs'         => 'required|array',
             'gender'        => 'nullable|string|max:255',
+            'images'        => 'nullable|array'
         ],[
             'title.required' => 'This is a custom error message for the title required error.'
         ]);
@@ -81,25 +81,25 @@ class ProductController extends Controller
         
         $product = Product::create([
             // 'user_id' => $request->user_id,
-            'user_id' => $request->user_id,
-            'title' => $request->title,
-            'mainCategory' => $request->mainCategory,
-            'subcategory' => $request->subcategory,
-            'description' => $request->description,
-            'is_new' => $request->is_new,
+            'user_id'       => $request->user_id,
+            'title'         => $request->title,
+            'isPublic'      => $request->isPublic,
+            'isConfirmed'   => $request->isConfirmed,
+            'mainCategory'  => $request->mainCategory,
+            'subcategory'   => $request->subcategory,
+            'description'   => $request->description,
+            'is_new'        => $request->is_new,
             // 'is_new' => true,
-            'base_price' => $request->base_price,
-            'sale_price' => $request->sale_price,
-            'on_sale' => $request->on_sale,
+            'base_price'    => $request->base_price,
+            'sale_price'    => $request->sale_price,
             // 'on_sale' => true,
-            'types' => json_encode($request->types),
-            'operator' => $request->operator,
-            // 'operator' => true,
-            'sizes' => json_encode($request->sizes),
-            'taggs' => $request->taggs,
-            // 'taggs' => '[ "rudens", " novembris", " latvija" ]',
-            'taggs' => json_encode($request->taggs),
-            'gender' => $request->gender,
+            'on_sale'       => $request->on_sale,
+            'operatorIsMultiply' => $request->operatorIsMultiply,
+            'types'         => json_encode($request->types),
+            'sizes'         => json_encode($request->sizes),
+            'taggs'         => json_encode($request->taggs),
+            'gender'        => $request->gender,
+            'images'        => json_encode($request->images),
         ]);
 
         return response($product, 201);
