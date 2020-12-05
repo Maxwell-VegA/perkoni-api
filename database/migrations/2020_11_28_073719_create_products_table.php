@@ -13,12 +13,13 @@ class CreateProductsTable extends Migration
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            // $table->foreignId('user_id')->constrained()->onDelete('cascade');
+            $table->foreignId('brand_id')->constrained()->onDelete('cascade');
             $table->string('title', 255);
             $table->boolean('isPublic');
             $table->boolean('isConfirmed')->nullable();
             $table->boolean('toBeDeleted')->default(false);
-            // $table->softDeletes('deleted_at', 0);	
+            // $table->softDeletes('deleted_at', 0);
             $table->string('mainCategory', 50);
             $table->string('subcategory', 50);
             $table->text('description');

@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+
+
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\Request;
 use App\Http\Requests;
@@ -77,11 +79,12 @@ class ProductController extends Controller
             'title.required' => 'This is a custom error message for the title required error.'
         ]);
 
-       // auth()->user()->posts()->create([]);
         
         $product = Product::create([
-            // 'user_id' => $request->user_id,
-            'user_id'       => $request->user_id,
+            // 'user_id'       => $request->user_id,
+            // 'user_id'       => auth()->id(),
+            // auth()->user()->products()->create([]);
+            'brand_id'      => $request->brand_id,
             'title'         => $request->title,
             'isPublic'      => $request->isPublic,
             'isConfirmed'   => $request->isConfirmed,

@@ -19,7 +19,8 @@ class Product extends JsonResource
         // If you want to template a specific response then use this.
         return [
             'id' => $this->id,
-            'user_id' => $this->user_id,
+            // 'user_id' => $this->user_id,
+            'brand_id' => $this->brand_id,
             // 'isPublic' => $this->isPublic,
             // 'isConfirmed' => $this->isPublic,
             // 'toBeDeleted' => $this->toBeDeleted,
@@ -37,7 +38,13 @@ class Product extends JsonResource
             'taggs' => json_decode($this->taggs),
             'gender' => $this->gender,
             'images' => json_decode($this->images),
-            //     'created_at' => $this->created_at,
+            // this actually returns the same as user_id
+            'user_username' => $this->brand->user->username,
+            'brand_logo' => $this->brand->logo,
+            'brand_name' => $this->brand->name,
+            'brand_description' => $this->brand->description,
+            // 'user' => $this->user->class,
+            // 'created_at' => $this->created_at,
             //     'updated_at' => $this->updated_at,
         ];
     }
