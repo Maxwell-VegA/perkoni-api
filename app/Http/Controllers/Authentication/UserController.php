@@ -5,7 +5,7 @@ namespace App\Http\Controllers\Authentication;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class MeController extends Controller
+class UserController extends Controller
 {
     public function __construct()
     {
@@ -15,10 +15,11 @@ class MeController extends Controller
     public function __invoke(Request $request)
     {
         $user = $request->user();
-        return response()->json([
+
+        return response()->json(['user' => [
             'email' => $user->email,
             'username' => $user->username,
 
-        ]);
+        ]]);
     }
 }
