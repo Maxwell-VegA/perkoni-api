@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ImgController;
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
+Route::middleware('auth:user')->get('/user', function (Request $request) {
     return $request->user();
 });
 
@@ -18,7 +18,7 @@ Route::group(['prefix' => 'auth', 'namespace' => 'App\Http\Controllers\Authentic
 });
 
 
-Route::get('/products', [ProductController::class, 'index']);
+Route::get('/products', [ProductController::class, 'index'])->middleware('vendor');
 Route::get('/products/{id}', [ProductController::class, 'show']);
 Route::post('/products', [ProductController::class, 'store']);
 Route::post('/img', [ImgController::class, 'store']);

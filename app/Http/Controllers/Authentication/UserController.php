@@ -9,7 +9,7 @@ class UserController extends Controller
 {
     public function __construct()
     {
-        $this->middleware(['auth:api']);
+        $this->middleware(['auth:user']);
     }
     
     public function __invoke(Request $request)
@@ -19,6 +19,8 @@ class UserController extends Controller
         return response()->json(['user' => [
             'email' => $user->email,
             'username' => $user->username,
+            'is_vendor' => $user->is_vendor,
+            'is_admin' => $user->is_admin,
 
         ]]);
     }
