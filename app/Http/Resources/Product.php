@@ -48,17 +48,4 @@ class Product extends JsonResource
             //     'updated_at' => $this->updated_at,
         ];
     }
-    
-    // public function with($request) {
-    //     return [
-    //         'types' => json_decode($this->types),
-    //         'sizes' => json_decode($this->sizes),
-    //         // back where I was before. Two options
-    //         // Figure out how to return pagination manually
-    //         // Or figure out how to respond differently depending on 
-    //         // Where the request is comming from
-    //         // 'version' => '1.0.0',
-    //         // 'author_url' => url('')
-    //     ];
-    // }
 }

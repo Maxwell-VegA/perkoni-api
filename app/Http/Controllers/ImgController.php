@@ -10,6 +10,7 @@ class ImgController extends Controller
         $validate = $this->validate($request, [
             'image' => 'image|required|max:1999'
         ]);
+        // does this validate function ever even get run? It's only defined.
         
         $filenameWithExt = $request->file('image')->getClientOriginalName();
         $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);

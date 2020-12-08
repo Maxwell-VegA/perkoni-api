@@ -17,6 +17,7 @@ class UserController extends Controller
         $user = $request->user();
 
         return response()->json(['user' => [
+            'id' => $user->id,
             'email' => $user->email,
             'username' => $user->username,
             'is_vendor' => $user->is_vendor,
