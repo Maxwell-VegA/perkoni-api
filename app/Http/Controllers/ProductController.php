@@ -30,8 +30,14 @@ class ProductController extends Controller
         else {
             $category = ['mainCategory', '=', $request->category];
         }
-        // $products = Product::paginate(6);
-        $products = DB::table('products')->where($category[0], $category[1], $category[2])->paginate(12);
+
+        if ($request->subcategory) {
+            $products = DB::table('products')->where($category[0], $category[1], $category[2])->paginate(12)->where('subcategory', '=', $request->subcategory);
+        }
+        else {
+            $products = DB::table('products')->where($category[0], $category[1], $category[2])->paginate(12);
+        }
+        // $products = DB::table('products')->where($category[0], $category[1], $category[2])->paginate(12);
         return new ProductsResource($products);
     }
     
