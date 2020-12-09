@@ -22,11 +22,12 @@ class CreateProductsTable extends Migration
             // $table->softDeletes('deleted_at', 0);
             $table->string('mainCategory', 50);
             $table->string('subcategory', 50);
-            $table->text('description');
+            $table->string('description', 255);
+            $table->text('longDescription')->nullable()->default(null);
             $table->boolean('is_new');
             // research money keeping in sql
             $table->float('base_price', 8, 2);
-            $table->float('sale_price', 8, 2);
+            $table->float('sale_price', 8, 2)->nullable();
             $table->boolean('on_sale');
             // $table->boolean('operatorIsMultiply');
             $table->boolean('operatorIsMultiply');

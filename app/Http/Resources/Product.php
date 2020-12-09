@@ -43,6 +43,8 @@ class Product extends JsonResource
             'brand_logo' => $this->brand->logo,
             'brand_name' => $this->brand->name,
             'brand_description' => $this->brand->description,
+            'brand_facebook' => $this->brand->facebook,
+            'brand_instagram' => $this->brand->instagram,
             // 'user' => $this->user->class,
             // 'created_at' => $this->created_at,
             //     'updated_at' => $this->updated_at,

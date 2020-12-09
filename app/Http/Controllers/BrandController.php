@@ -19,6 +19,8 @@ class BrandController extends Controller
             'user_id' => 'required',
             'name' => 'required',
             'description' => 'nullable',
+            'facebook' => 'nullable',
+            'instagram' => 'nullable',
             'image' => 'image|required|max:1999',
         ]);
 
@@ -33,10 +35,9 @@ class BrandController extends Controller
         $brand = Brand::create([
             'user_id' => $request->user_id,
             'name' => $request->name,
-            // 'name' => 'he',
             'description' => $request->description,
-            // 'description' => 'he',
-            // 'logo' => $request->image,
+            'facebook' => $request->facebook,
+            'instagram' => $request->instagram,
             'logo' => $filenameToStore,
         ]);
 

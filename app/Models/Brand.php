@@ -13,6 +13,8 @@ class Brand extends Model
         'user_id',
         'name',
         'description',
+        'facebook',
+        'instagram',
         'logo'
     ];
 
