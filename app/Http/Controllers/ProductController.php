@@ -14,13 +14,9 @@ use App\Http\Resources\Products as ProductsResource;
 
 class ProductController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index(Request $request)
     {
+
         if ($request->category === 'Jaunumi') {
             $category = ['is_new', '=', 1];
         }
@@ -57,26 +53,29 @@ class ProductController extends Controller
             ->paginate(12);
 
         return new ProductsResource($products);
+
     }
     
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
+    public function related(Request $request)
     {
 
-        return view('products.create');
+        $products = $request->user()->products;
+        return ($products);
+
+
+        // $related = DB::table('products')->where('brand_id', '=', '3');
+            // ->where('isPublic', '=', 1)
+            // ->where('isConfirmed', '=', 1)
+            // // ->where('brand_id', '=', 3)
+            // ->orderBy('updated_at');
+
+        // what I need is for those products of a matching brand id to go first
+        // then they should be followed by products of different brands but same vendor
+        // finally should follow all the other products
+        // this should be sorted by latest updated
 
     }
     
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
 
@@ -116,10 +115,8 @@ class ProductController extends Controller
             'subcategory'   => $request->subcategory,
             'description'   => $request->description,
             'is_new'        => $request->is_new,
-            // 'is_new' => true,
             'base_price'    => $request->base_price,
             'sale_price'    => $request->sale_price,
-            // 'on_sale' => true,
             'on_sale'       => $request->on_sale,
             'operatorIsMultiply' => $request->operatorIsMultiply,
             'types'         => json_encode($request->types),
