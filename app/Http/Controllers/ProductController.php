@@ -22,22 +22,40 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         if ($request->category === 'Jaunumi') {
-            $category = ['is_new', '=', 1] ;
+            $category = ['is_new', '=', 1];
         }
         elseif ($request->category === 'Akcijas') {
-            $category = ['on_sale', '=', 1] ;
+            $category = ['on_sale', '=', 1];
         }
         else {
             $category = ['mainCategory', '=', $request->category];
         }
 
-        if ($request->subcategory) {
-            $products = DB::table('products')->where($category[0], $category[1], $category[2])->paginate(12)->where('subcategory', '=', $request->subcategory);
-        }
-        else {
-            $products = DB::table('products')->where($category[0], $category[1], $category[2])->paginate(12);
-        }
-        // $products = DB::table('products')->where($category[0], $category[1], $category[2])->paginate(12);
+        // The issue is that I don't have access to variables inside of that that function
+        
+        $subcategory = $request->subcategory;
+        $gender = $request->gender;
+        $taggs = ['December', 'Easter', 'Spring'];
+
+        $matchesTag = function ($query) {
+            $query->where('taggs', 'like', '%'.'December'.'%')
+                ->orWhere('taggs', 'like', '%'.'Easter'.'%')
+                ->orWhere('taggs', 'like', '%'.'Spring'.'%');
+        };
+
+        $products = DB::table('products')
+            ->where('isPublic', '=', 1)
+            ->where('isConfirmed', '=', 1)
+            ->where($category[0], $category[1], $category[2])
+            ->when($subcategory, function($query, $subcategory) {
+                return $query->where('subcategory', '=', $subcategory);})
+            ->when($gender, function($query, $gender) {
+                return $query->where('gender', '=', $gender);})
+            // ->where($matchesTag)
+            // ->inRandomOrder()
+            ->orderBy('on_sale', 'desc')
+            ->paginate(12);
+
         return new ProductsResource($products);
     }
     

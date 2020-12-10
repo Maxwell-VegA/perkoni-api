@@ -24,7 +24,7 @@ class User extends Authenticatable implements JWTSubject
         'is_vendor',
         'is_admin',
     ];
-
+    
     /**
      * The attributes that should be hidden for arrays.
      *
@@ -33,6 +33,7 @@ class User extends Authenticatable implements JWTSubject
     protected $hidden = [
         'password',
         'remember_token',
+        'email',
     ];
 
     /**

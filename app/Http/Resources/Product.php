@@ -38,8 +38,7 @@ class Product extends JsonResource
             'taggs' => json_decode($this->taggs),
             'gender' => $this->gender,
             'images' => json_decode($this->images),
-            // this actually returns the same as user_id
-            'user_username' => $this->brand->user->username,
+            // 'user_username' => $this->brand->user->id,
             'brand_logo' => $this->brand->logo,
             'brand_name' => $this->brand->name,
             'brand_description' => $this->brand->description,
