@@ -110,6 +110,18 @@ class ProductController extends Controller
             'title.required' => 'This is a custom error message for the title required error.'
         ]);
 
+        $images = $request->images;
+        $set = 'asdasd';
+
+        foreach($images as $image) {
+            $filename = 'storage/product_images/' . $request->brand_id . '-' . $image['fileName'];
+            // array_push($images, $filename);            
+            copy('./storage/product_images/temp/' . $image['fileName'], './' . $filename);
+            unlink('./storage/product_images/temp/' . $image['fileName']);
+            $image['fileName'] = 'hey';
+            $set = 'hey';
+            // I guess I'll have to create a new array in which the information of the old one has been processed.
+        }
         
         $product = Product::create([
             'brand_id'      => $request->brand_id,
@@ -130,11 +142,12 @@ class ProductController extends Controller
             'sizes'         => json_encode($request->sizes),
             'taggs'         => json_encode($request->taggs),
             'gender'        => $request->gender,
-            'images'        => json_encode($request->images),
-            'related'        => json_encode($request->related),
-
+            'images'        => json_encode($set),
+            'related'       => json_encode($request->related),
         ]);
 
+        return response(scandir('./storage'), 201);
+        return response(getcwd(), 201);
         return response($product, 201);
 
         // return view('products.index.id');
