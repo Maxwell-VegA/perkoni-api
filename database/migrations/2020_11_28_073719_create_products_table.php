@@ -8,8 +8,6 @@ class CreateProductsTable extends Migration
 {
     
     public function up()
-    // $defaultImgArr = json_encode([{fileName: 'photo_1607001055.jpg'}]);
-    // $defaultImgArr = [];
     {
         Schema::create('products', function (Blueprint $table) {
             $table->id();
@@ -18,7 +16,7 @@ class CreateProductsTable extends Migration
             $table->string('title', 255);
             $table->boolean('isPublic');
             $table->boolean('isConfirmed')->nullable();
-            $table->boolean('toBeDeleted')->default(false);
+            $table->boolean('toBeDeleted')->nullable()->default(false);
             // $table->softDeletes('deleted_at', 0);
             $table->string('mainCategory', 50);
             $table->string('subcategory', 50);
@@ -29,15 +27,15 @@ class CreateProductsTable extends Migration
             $table->float('base_price', 8, 2);
             $table->float('sale_price', 8, 2)->nullable();
             $table->boolean('on_sale');
-            // $table->boolean('operatorIsMultiply');
             $table->boolean('operatorIsMultiply');
-            $table->jsonb('types');
-            $table->jsonb('sizes');
-            $table->jsonb('taggs');
+            $table->jsonb('types')->nullable();
+            $table->jsonb('sizes')->nullable();
+            $table->jsonb('taggs')->nullable();
             // ->default(new Expression('(JSON_ARRAY())'))
             // Tecincally though these aren't json objects. They are arrays of objects (maybe not even json objects).
             $table->string('gender', 255)->default('genderless');
             $table->jsonb('images')->nullable();
+            $table->jsonb('related')->nullable();
             $table->timestamps();
         });
     }

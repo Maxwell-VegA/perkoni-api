@@ -19,6 +19,7 @@ class Product extends Model
         'mainCategory',
         'subcategory',
         'description',
+        'longDescription',
         'is_new',
         'base_price',
         'sale_price',
@@ -29,6 +30,7 @@ class Product extends Model
         'taggs',
         'gender',
         'images',
+        'related',
 
     ];
 
@@ -39,9 +41,7 @@ class Product extends Model
     // }
 
     public function brand() {
-
         return $this->belongsTo(Brand::class);
-
     }
 
 

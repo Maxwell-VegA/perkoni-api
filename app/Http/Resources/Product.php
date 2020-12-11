@@ -14,15 +14,13 @@ class Product extends JsonResource
      */
     public function toArray($request)
     {
-        // return parent::toArray($request);
-        // By default toArray will return a blanket response. 
-        // If you want to template a specific response then use this.
+        // respond differently depending on who is making the request
+        // return isConfirmed and toBeDeleted only to vendors
         return [
             'id' => $this->id,
-            // 'user_id' => $this->user_id,
             'brand_id' => $this->brand_id,
-            // 'isPublic' => $this->isPublic,
-            // 'isConfirmed' => $this->isPublic,
+            'isPublic' => $this->isPublic,
+            // 'isConfirmed' => $this->isConfirmed,
             // 'toBeDeleted' => $this->toBeDeleted,
             'title' => $this->title,
             'mainCategory' => $this->mainCategory,
@@ -38,6 +36,7 @@ class Product extends JsonResource
             'taggs' => json_decode($this->taggs),
             'gender' => $this->gender,
             'images' => json_decode($this->images),
+            'related' => json_decode($this->images),
             // 'user_username' => $this->brand->user->id,
             'brand_logo' => $this->brand->logo,
             'brand_name' => $this->brand->name,

@@ -33,6 +33,8 @@ class ProductController extends Controller
         $gender = $request->gender;
         $taggs = ['December', 'Easter', 'Spring'];
 
+
+
         $matchesTag = function ($query) {
             $query->where('taggs', 'like', '%'.'December'.'%')
                 ->orWhere('taggs', 'like', '%'.'Easter'.'%')
@@ -47,11 +49,14 @@ class ProductController extends Controller
                 return $query->where('subcategory', '=', $subcategory);})
             ->when($gender, function($query, $gender) {
                 return $query->where('gender', '=', $gender);})
-            // ->where($matchesTag)
-            // ->inRandomOrder()
             ->orderBy('on_sale', 'desc')
             ->paginate(12);
-
+                
+            // ->where($matchesTag)
+            // ->inRandomOrder()
+                
+                
+                
         return new ProductsResource($products);
 
     }
@@ -85,35 +90,37 @@ class ProductController extends Controller
             'title'         => 'required|string|max:255',
             'isPublic'      => 'required|boolean',
             'isConfirmed'   => 'nullable|boolean',
+            'toBeDeleted'   => 'nullable|boolean',
             'mainCategory'  => 'required|string|max:50',
             'subcategory'   => 'required|string|max:50',
-            'description'   => 'required|string|max:65535',
+            'description'   => 'required|string|max:255',
+            'longDescription'=>'nullable|string|max:65535',
             'is_new'        => 'required|boolean',
             'base_price'    => 'required|numeric',
-            'sale_price'    => 'required|numeric',
+            'sale_price'    => 'nullable|numeric',
             'on_sale'       => 'required|boolean',
             'operatorIsMultiply' => 'required|boolean',
-            'types'         => 'required|array',
-            'sizes'         => 'required|array',
-            'taggs'         => 'required|array',
+            'types'         => 'nullable|array',
+            'sizes'         => 'nullable|array',
+            'taggs'         => 'nullable|array',
             'gender'        => 'nullable|string|max:255',
-            'images'        => 'nullable|array'
+            'images'        => 'nullable|array',
+            'related'       => 'nullable|array',
         ],[
             'title.required' => 'This is a custom error message for the title required error.'
         ]);
 
         
         $product = Product::create([
-            // 'user_id'       => $request->user_id,
-            // 'user_id'       => auth()->id(),
-            // auth()->user()->products()->create([]);
             'brand_id'      => $request->brand_id,
             'title'         => $request->title,
             'isPublic'      => $request->isPublic,
             'isConfirmed'   => $request->isConfirmed,
+            'toBeDeleted'   => $request->isConfirmed,
             'mainCategory'  => $request->mainCategory,
             'subcategory'   => $request->subcategory,
             'description'   => $request->description,
+            'longDescription'=>$request->description,
             'is_new'        => $request->is_new,
             'base_price'    => $request->base_price,
             'sale_price'    => $request->sale_price,
@@ -124,6 +131,8 @@ class ProductController extends Controller
             'taggs'         => json_encode($request->taggs),
             'gender'        => $request->gender,
             'images'        => json_encode($request->images),
+            'related'        => json_encode($request->related),
+
         ]);
 
         return response($product, 201);
