@@ -11,6 +11,7 @@ use App\Models\Product;
 use Illuminate\Support\Facades\DB;
 use App\Http\Resources\Product as ProductResource;
 use App\Http\Resources\Products as ProductsResource;
+use App\Http\Resources\ProductsCollection;
 
 class Image
 {
@@ -58,13 +59,17 @@ class ProductController extends Controller
                 return $query->where('gender', '=', $gender);})
             ->orderBy('on_sale', 'desc')
             ->paginate(12);
+
+            // get only certain collumns
                 
             // ->where($matchesTag)
             // ->inRandomOrder()
                 
                 
                 
-        return new ProductsResource($products);
+            return new ProductsResource($products);
+            return ProductsResource::collection($products);
+            return ProductsCollection::collection($products);
 
     }
     
@@ -159,9 +164,9 @@ class ProductController extends Controller
             'related'       => json_encode($request->related),
         ]);
 
+        return response($product, 201);
         return response(scandir('./storage'), 201);
         return response(getcwd(), 201);
-        return response($product, 201);
 
         // return view('products.index.id');
         // include a success message

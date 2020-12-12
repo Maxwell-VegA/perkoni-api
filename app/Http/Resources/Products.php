@@ -10,6 +10,8 @@ class Products extends JsonResource
     {
 
         return parent::toArray($request);
-        
+    //    return [
+    //         'title' => $this->title
+    //    ];
     }
 }
