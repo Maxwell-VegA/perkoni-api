@@ -8,10 +8,16 @@ class Products extends JsonResource
 {
     public function toArray($request)
     {
-
-        return parent::toArray($request);
-    //    return [
-    //         'title' => $this->title
-    //    ];
+       return [
+            'id' => $this->id,
+            'title' => $this->title,
+            'base_price' => $this->base_price,
+            'sale_price' => $this->when(!$this->on_sale, $this->base_price),
+            'on_sale' => $this->when($this->on_sale, $this->on_sale),
+            'taggs' => json_decode($this->taggs),
+            'images' => json_decode($this->images),
+            'hover' => false,
+            'cPage' => 1,
+       ];
     }
 }

@@ -67,9 +67,9 @@ class ProductController extends Controller
                 
                 
                 
-            return new ProductsResource($products);
             return ProductsResource::collection($products);
             return ProductsCollection::collection($products);
+            return ProductsResource::collection($products);
 
     }
     
@@ -137,7 +137,6 @@ class ProductController extends Controller
 
             array_push($newImageArray, $newImage);
             
-            // I guess I'll have to create a new array in which the information of the old one has been processed.
             // how about thumbnail generation?
         }
         
@@ -165,8 +164,6 @@ class ProductController extends Controller
         ]);
 
         return response($product, 201);
-        return response(scandir('./storage'), 201);
-        return response(getcwd(), 201);
 
         // return view('products.index.id');
         // include a success message
