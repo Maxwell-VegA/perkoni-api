@@ -12,6 +12,13 @@ use Illuminate\Support\Facades\DB;
 use App\Http\Resources\Product as ProductResource;
 use App\Http\Resources\Products as ProductsResource;
 
+class Image
+{
+    public $fileName;
+    public $title;
+    public $description;
+}
+
 class ProductController extends Controller
 {
     public function index(Request $request)
@@ -111,16 +118,22 @@ class ProductController extends Controller
         ]);
 
         $images = $request->images;
-        $set = 'asdasd';
+        $newImageArray = [];
 
         foreach($images as $image) {
-            $filename = 'storage/product_images/' . $request->brand_id . '-' . $image['fileName'];
-            // array_push($images, $filename);            
-            copy('./storage/product_images/temp/' . $image['fileName'], './' . $filename);
-            unlink('./storage/product_images/temp/' . $image['fileName']);
-            $image['fileName'] = 'hey';
-            $set = 'hey';
+            $newFileName = 'storage/product_images/' . $request->brand_id . '-' . $image['fileName'];
+            copy('./storage/product_images/temp/' . $image['fileName'], './' . $newFileName);
+            // unlink('./storage/product_images/temp/' . $image['fileName']);
+            
+            $newImage = new Image();
+            $newImage->fileName = $newFileName;
+            $newImage->title = $image['title'];
+            $newImage->description = $image['description'];
+
+            array_push($newImageArray, $newImage);
+            
             // I guess I'll have to create a new array in which the information of the old one has been processed.
+            // how about thumbnail generation?
         }
         
         $product = Product::create([
@@ -142,7 +155,7 @@ class ProductController extends Controller
             'sizes'         => json_encode($request->sizes),
             'taggs'         => json_encode($request->taggs),
             'gender'        => $request->gender,
-            'images'        => json_encode($set),
+            'images'        => json_encode($newImageArray),
             'related'       => json_encode($request->related),
         ]);
 

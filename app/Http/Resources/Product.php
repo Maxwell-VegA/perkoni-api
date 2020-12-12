@@ -45,7 +45,7 @@ class Product extends JsonResource
             'brand_instagram' => $this->brand->instagram,
             // 'user' => $this->user->class,
             // 'created_at' => $this->created_at,
-            //     'updated_at' => $this->updated_at,
+            // 'updated_at' => $this->updated_at,
         ];
     }
 }
