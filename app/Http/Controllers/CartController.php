@@ -8,7 +8,8 @@ use App\Models\CartItem;
 
 class CartController extends Controller
 {
-    public function index(Request $request) {
+    public function index(Request $request) 
+    {
         $cart = $request->user()->itemsInCart;
         // $cart = CartItem::findOrFail($id);
         return response ($cart);
@@ -20,6 +21,7 @@ class CartController extends Controller
 
         $cartItem = CartItem::create([
             'user_id' => $request->user()->id,
+            // How to deal with anon customers who don't have an id?
             'product_id' => $request->productId,
             'title' => $request->title,
             'price' => $request->price,
