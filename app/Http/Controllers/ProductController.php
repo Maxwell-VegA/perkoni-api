@@ -149,7 +149,7 @@ class ProductController extends Controller
             'mainCategory'  => $request->mainCategory,
             'subcategory'   => $request->subcategory,
             'description'   => $request->description,
-            'longDescription'=>$request->description,
+            'longDescription'=>$request->longDescription,
             'is_new'        => $request->is_new,
             'base_price'    => $request->base_price,
             'sale_price'    => $request->sale_price,
