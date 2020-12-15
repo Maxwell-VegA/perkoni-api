@@ -35,10 +35,21 @@ class ProductController extends Controller
             $category = ['mainCategory', '=', $request->category];
         }
 
+        $gender = $request->gender;
+        
+        if ($gender === "Vīriešiem") {
+            $gender = 'rie';
+        }
+        elseif ($gender === "Sievietēm") {
+            $gender = 'Sieviet';
+        }
+        elseif ($gender === "Bērniem") {
+            $gender = 'rniem';
+        }
+
         // The issue is that I don't have access to variables inside of that that function
         
         $subcategory = $request->subcategory;
-        $gender = $request->gender;
         $taggs = ['December', 'Easter', 'Spring'];
 
 
@@ -56,7 +67,7 @@ class ProductController extends Controller
             ->when($subcategory, function($query, $subcategory) {
                 return $query->where('subcategory', '=', $subcategory);})
             ->when($gender, function($query, $gender) {
-                return $query->where('gender', '=', $gender);})
+                return $query->where('gender', 'like', '%'.$gender.'%');})
             ->orderBy('on_sale', 'desc')
             ->paginate(12);
 
@@ -124,7 +135,7 @@ class ProductController extends Controller
             'images'        => 'nullable|array',
             'related'       => 'nullable|array',
             'weight'        => 'required|numeric',
-            'shipping'      => 'required',
+            'shipping'      => 'required|array',
         ],[
             'title.required' => 'This is a custom error message for the title required error.'
         ]);
@@ -132,20 +143,20 @@ class ProductController extends Controller
         $images = $request->images;
         $newImageArray = [];
 
-        // foreach($images as $image) {
-        //     $newFileName = 'storage/product_images/' . $request->brand_id . '-' . $image['fileName'];
-        //     copy('./storage/product_images/temp/' . $image['fileName'], './' . $newFileName);
-        //     // unlink('./storage/product_images/temp/' . $image['fileName']);
+        foreach($images as $image) {
+            $newFileName = 'storage/product_images/' . $request->brand_id . '-' . $image['fileName'];
+            copy('./storage/product_images/temp/' . $image['fileName'], './' . $newFileName);
+            // unlink('./storage/product_images/temp/' . $image['fileName']);
             
-        //     $newImage = new Image();
-        //     $newImage->fileName = $newFileName;
-        //     $newImage->title = $image['title'];
-        //     $newImage->description = $image['description'];
+            $newImage = new Image();
+            $newImage->fileName = $newFileName;
+            $newImage->title = $image['title'];
+            $newImage->description = $image['description'];
 
-        //     array_push($newImageArray, $newImage);
+            array_push($newImageArray, $newImage);
             
         //     // how about thumbnail generation?
-        // }
+        }
         
         $product = Product::create([
             'brand_id'      => $request->brand_id,
