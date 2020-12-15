@@ -99,6 +99,7 @@ class ProductController extends Controller
         // $this->middleware('auth');
 
         $this->validate($request, [
+            // brandid required
             'title'         => 'required|string|max:255',
             'isPublic'      => 'required|boolean',
             'isConfirmed'   => 'nullable|boolean',
@@ -112,12 +113,18 @@ class ProductController extends Controller
             'sale_price'    => 'nullable|numeric',
             'on_sale'       => 'required|boolean',
             'operatorIsMultiply' => 'required|boolean',
+            'variationsName'=> 'nullable|string',
+            'typesName'     => 'nullable|string',
+            'subtypesName'  => 'nullable|string',
+            'variations'    => 'nullable|array',
             'types'         => 'nullable|array',
             'sizes'         => 'nullable|array',
             'taggs'         => 'nullable|array',
-            'gender'        => 'nullable|string|max:255',
+            'gender'        => 'nullable|array',
             'images'        => 'nullable|array',
             'related'       => 'nullable|array',
+            'weight'        => 'required|numeric',
+            'shipping'      => 'required',
         ],[
             'title.required' => 'This is a custom error message for the title required error.'
         ]);
@@ -125,20 +132,20 @@ class ProductController extends Controller
         $images = $request->images;
         $newImageArray = [];
 
-        foreach($images as $image) {
-            $newFileName = 'storage/product_images/' . $request->brand_id . '-' . $image['fileName'];
-            copy('./storage/product_images/temp/' . $image['fileName'], './' . $newFileName);
-            // unlink('./storage/product_images/temp/' . $image['fileName']);
+        // foreach($images as $image) {
+        //     $newFileName = 'storage/product_images/' . $request->brand_id . '-' . $image['fileName'];
+        //     copy('./storage/product_images/temp/' . $image['fileName'], './' . $newFileName);
+        //     // unlink('./storage/product_images/temp/' . $image['fileName']);
             
-            $newImage = new Image();
-            $newImage->fileName = $newFileName;
-            $newImage->title = $image['title'];
-            $newImage->description = $image['description'];
+        //     $newImage = new Image();
+        //     $newImage->fileName = $newFileName;
+        //     $newImage->title = $image['title'];
+        //     $newImage->description = $image['description'];
 
-            array_push($newImageArray, $newImage);
+        //     array_push($newImageArray, $newImage);
             
-            // how about thumbnail generation?
-        }
+        //     // how about thumbnail generation?
+        // }
         
         $product = Product::create([
             'brand_id'      => $request->brand_id,
@@ -155,13 +162,19 @@ class ProductController extends Controller
             'sale_price'    => $request->sale_price,
             'on_sale'       => $request->on_sale,
             'operatorIsMultiply' => $request->operatorIsMultiply,
+            'variationsName'=> $request->variationsName,
+            'typesName'     => $request->typesName,
+            'subtypesName'  => $request->subtypesName,
+            'variations'    => json_encode($request->variations),
             'types'         => json_encode($request->types),
             'sizes'         => json_encode($request->sizes),
             'taggs'         => json_encode($request->taggs),
-            'gender'        => $request->gender,
+            'gender'        => json_encode($request->gender),
             'images'        => json_encode($newImageArray),
             'related'       => json_encode($request->related),
-        ]);
+            'weight'        => $request->weight,
+            'shipping'      => json_encode($request->shipping),
+            ]);
 
         return response($product, 201);
 

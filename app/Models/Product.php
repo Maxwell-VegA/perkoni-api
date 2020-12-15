@@ -25,12 +25,18 @@ class Product extends Model
         'sale_price',
         'on_sale',
         'operatorIsMultiply',
+        'variationsName',
+        'typesName',
+        'subtypesName',
+        'variations',
         'types',
         'sizes',
         'taggs',
         'gender',
         'images',
         'related',
+        'weight',
+        'shipping',
 
     ];
 

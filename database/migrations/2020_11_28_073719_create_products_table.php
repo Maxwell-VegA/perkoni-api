@@ -28,14 +28,20 @@ class CreateProductsTable extends Migration
             $table->float('sale_price', 8, 2)->nullable();
             $table->boolean('on_sale');
             $table->boolean('operatorIsMultiply');
+            $table->string('variationsName', 255)->nullable()->default('Variacijas');
+            $table->string('typesName', 255)->nullable()->default('Tipi');
+            $table->string('subtypesName', 255)->nullable()->default('Subtipi');
+            $table->jsonb('variations')->nullable();
             $table->jsonb('types')->nullable();
             $table->jsonb('sizes')->nullable();
             $table->jsonb('taggs')->nullable();
             // ->default(new Expression('(JSON_ARRAY())'))
             // Tecincally though these aren't json objects. They are arrays of objects (maybe not even json objects).
-            $table->string('gender', 255)->default('genderless');
-            $table->jsonb('images')->nullable();
+            $table->jsonb('gender')->default('["genderless"]');
+            $table->jsonb('images');
             $table->jsonb('related')->nullable();
+            $table->integer('weight');
+            $table->jsonb('shipping');
             $table->timestamps();
         });
     }
