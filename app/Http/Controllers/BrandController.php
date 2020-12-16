@@ -19,6 +19,7 @@ class BrandController extends Controller
             'user_id' => 'required',
             'name' => 'required',
             'description' => 'nullable',
+            'custom_link' => 'nullable',
             'facebook' => 'nullable',
             'instagram' => 'nullable',
             'freeShipping' => 'nullable|numeric',
@@ -38,11 +39,13 @@ class BrandController extends Controller
             'user_id' => $request->user_id,
             'name' => $request->name,
             'description' => $request->description,
+            'custom_link' => $request->custom_link,
             'facebook' => $request->facebook,
             'instagram' => $request->instagram,
             'freeShipping' => $request->freeShipping,
             'shippingPartners' => $request->shippingPartners,
             'logo' => $filenameToStore,
+            // 'logo' => 'storage/logos/' . $filenameToStore,
         ]);
 
         return response($brand, 201);

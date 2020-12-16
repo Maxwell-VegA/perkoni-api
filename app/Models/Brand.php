@@ -13,6 +13,7 @@ class Brand extends Model
         'user_id',
         'name',
         'description',
+        'custom_link',
         'facebook',
         'instagram',
         'freeShipping',
