@@ -19,9 +19,11 @@ class CreateCartItemsTable extends Migration
             $table->foreignId('product_id')->constrained()->onDelete('cascade');
             $table->string('title');
             $table->string('price');
+            $table->integer('selected_gender')->nullable();
+            $table->integer('selected_size')->nullable();
+            $table->integer('selected_variation')->nullable();
             $table->integer('selected_type')->nullable();
             $table->integer('selected_subtype')->nullable();
-            $table->integer('selected_size')->nullable();
             $table->string('thumbnail')->nullable();
             $table->integer('quantity');
             $table->timestamps();

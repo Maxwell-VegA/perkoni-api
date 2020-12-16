@@ -21,6 +21,8 @@ class BrandController extends Controller
             'description' => 'nullable',
             'facebook' => 'nullable',
             'instagram' => 'nullable',
+            'freeShipping' => 'nullable|numeric',
+            'shippingPartners' => 'nullable|array',
             'image' => 'image|required|max:1999',
         ]);
 
@@ -38,6 +40,8 @@ class BrandController extends Controller
             'description' => $request->description,
             'facebook' => $request->facebook,
             'instagram' => $request->instagram,
+            'freeShipping' => $request->freeShipping,
+            'shippingPartners' => $request->shippingPartners,
             'logo' => $filenameToStore,
         ]);
 

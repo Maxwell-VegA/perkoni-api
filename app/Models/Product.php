@@ -37,6 +37,7 @@ class Product extends Model
         'related',
         'weight',
         'shipping',
+        'address',
 
     ];
 

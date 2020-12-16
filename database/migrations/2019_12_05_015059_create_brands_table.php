@@ -21,6 +21,8 @@ class CreateBrandsTable extends Migration
             $table->text('description')->nullable();
             $table->string('facebook')->nullable();
             $table->string('instagram')->nullable();
+            $table->float('freeShipping', 8, 2)->nullable();
+            $table->jsonb('shippingPartners')->nullable();
             // $table->string('custom_link')->nullable();
             // $table->string('telephone-num?')->nullable();
             $table->timestamps();

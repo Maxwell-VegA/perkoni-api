@@ -42,6 +42,7 @@ class CreateProductsTable extends Migration
             $table->jsonb('related')->nullable();
             $table->integer('weight');
             $table->jsonb('shipping');
+            $table->string('address');
             $table->timestamps();
         });
     }

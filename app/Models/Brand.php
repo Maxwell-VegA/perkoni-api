@@ -15,6 +15,8 @@ class Brand extends Model
         'description',
         'facebook',
         'instagram',
+        'freeShipping',
+        'shippingPartners',
         'logo'
     ];
 
