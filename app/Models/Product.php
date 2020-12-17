@@ -38,6 +38,7 @@ class Product extends Model
         'weight',
         'shipping',
         'address',
+        'targets',
 
     ];
 

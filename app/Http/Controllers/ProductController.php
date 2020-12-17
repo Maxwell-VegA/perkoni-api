@@ -137,6 +137,7 @@ class ProductController extends Controller
             'weight'        => 'required|numeric',
             'shipping'      => 'required|array',
             'address'       => 'nullable|string',
+            'targets'       => 'nullable|array',
         ],[
             'title.required' => 'This is a custom error message for the title required error.'
         ]);
@@ -187,6 +188,7 @@ class ProductController extends Controller
             'weight'        => $request->weight,
             'shipping'      => json_encode($request->shipping),
             'address'       => $request->address,
+            'targets'       => json_encode($request->targets),
         ]);
 
         return response($product, 201);
