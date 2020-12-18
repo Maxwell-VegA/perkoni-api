@@ -31,6 +31,7 @@ class CartController extends Controller
             'selected_subtype' => $request->selectedSubtype,
             'selected_size' => $request->selectedSize,
             'quantity' => $request->quantity,
+            'key' => $request->key,
         ]);
 
         return response($cartItem, 201);

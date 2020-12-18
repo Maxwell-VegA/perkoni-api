@@ -76,9 +76,9 @@ class ProductController extends Controller
             // ->where($matchesTag)
             // ->inRandomOrder()
                 
-                
-                
             return ProductsResource::collection($products);
+                
+                
             return ProductsCollection::collection($products);
             return ProductsResource::collection($products);
 

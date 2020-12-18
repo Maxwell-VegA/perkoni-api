@@ -21,6 +21,7 @@ class CartItem extends Model
         'selected_size',
         'thumnnail',
         'quantity',
+        'key',
     ];
 
     public function user() {

@@ -26,6 +26,7 @@ class CreateCartItemsTable extends Migration
             $table->integer('selected_subtype')->nullable();
             $table->string('thumbnail')->nullable();
             $table->integer('quantity');
+            $table->string('key');
             $table->timestamps();
         });
     }
