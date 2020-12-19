@@ -13,15 +13,51 @@ class BrandController extends Controller
         return ($brands);
     }
 
+    public function update($id, Request $request) {
+        
+        // $this->validate($request, [
+        //     'name' => 'required',
+        //     // 'description' => 'nullable',
+        //     // 'custom_link' => 'nullable',
+        //     // 'facebook' => 'nullable',
+        //     // 'instagram' => 'nullable',
+        //     'freeShipping' => 'nullable|numeric',
+        //     'shippingPartners' => 'nullable|array',
+        //     'image' => 'image|nullable|max:1999',
+        // ]);
+        
+        $brand = Brand::find($id);
+        // return response($brand);
+        $brand->name = $request->name;
+        $brand->description = $request->description;
+        $brand->facebook = $request->facebook;
+        $brand->instagram = $request->instagram;
+        $brand->shippingPartners = $request->shippingPartners;
+        $brand->freeShipping = $request->freeShipping;
+        $brand->custom_link = $request->custom_link;
+        // if ($request->image) {
+        // // Might want to add something here to delete the previous image
+        //     $filenameWithExt = $request->file('image')->getClientOriginalName();
+        //     $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+        //     $extension = $request->file('image')->getClientOriginalExtension();
+        //     $filenameToStore = $filename.'_'.time().'.'.$extension;
+        //     $request->file('image')->storeAs('public/logos', $filenameToStore);
+        
+        //     $brand->logo = $filenameToStore;
+        // }
+        $brand->save();
+
+        return response('success');
+    }
+
     public function store(Request $request) {
         
         $this->validate($request, [
-            'user_id' => 'required',
             'name' => 'required',
-            'description' => 'nullable',
-            'custom_link' => 'nullable',
-            'facebook' => 'nullable',
-            'instagram' => 'nullable',
+            // 'description' => 'nullable',
+            // 'custom_link' => 'nullable',
+            // 'facebook' => 'nullable',
+            // 'instagram' => 'nullable',
             'freeShipping' => 'nullable|numeric',
             'shippingPartners' => 'nullable|array',
             'image' => 'image|required|max:1999',
@@ -33,10 +69,8 @@ class BrandController extends Controller
         $filenameToStore = $filename.'_'.time().'.'.$extension;
         $request->file('image')->storeAs('public/logos', $filenameToStore);
 
-            // if id is set in the request then instead of creating a brand a brand with that id will be replaced
-
         $brand = Brand::create([
-            'user_id' => $request->user_id,
+            'user_id' => $request->user()->id,
             'name' => $request->name,
             'description' => $request->description,
             'custom_link' => $request->custom_link,
@@ -45,7 +79,6 @@ class BrandController extends Controller
             'freeShipping' => $request->freeShipping,
             'shippingPartners' => $request->shippingPartners,
             'logo' => $filenameToStore,
-            // 'logo' => 'storage/logos/' . $filenameToStore,
         ]);
 
         return response($brand, 201);

@@ -35,3 +35,5 @@ Route::post('/img', [ImgController::class, 'store']);
 
 Route::get('/brand', [BrandController::class, 'index']);
 Route::post('/brand', [BrandController::class, 'store']);
+Route::patch('/brand/{id}', [BrandController::class, 'update']);
+Route::delete('/brand/{id}', [BrandController::class, 'destroy']);
