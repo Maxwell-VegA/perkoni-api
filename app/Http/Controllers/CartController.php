@@ -13,6 +13,13 @@ class CartController extends Controller
         $cart = $request->user()->itemsInCart;
         return response ($cart);
     }
+
+    public function update($id, Request $request)
+    {
+        $cartItem = CartItem::find($id);
+        $cartItem->quantity = $request->quantity;
+        $cartItem->save();
+    }
     
     public function store(Request $request)
     {
@@ -20,8 +27,6 @@ class CartController extends Controller
 
         $cartItem = CartItem::create([
             'user_id' => $request->user()->id,
-            // How to deal with anon customers who don't have an id?
-            // Vuex probably
             'product_id' => $request->productId,
             'title' => $request->title,
             'price' => $request->price,
