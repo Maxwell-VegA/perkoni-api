@@ -15,16 +15,16 @@ class BrandController extends Controller
 
     public function update($id, Request $request) {
         
-        // $this->validate($request, [
-        //     'name' => 'required',
-        //     // 'description' => 'nullable',
-        //     // 'custom_link' => 'nullable',
-        //     // 'facebook' => 'nullable',
-        //     // 'instagram' => 'nullable',
-        //     'freeShipping' => 'nullable|numeric',
-        //     'shippingPartners' => 'nullable|array',
-        //     'image' => 'image|nullable|max:1999',
-        // ]);
+        $this->validate($request, [
+            'name' => 'required',
+            // 'description' => 'nullable',
+            // 'custom_link' => 'nullable',
+            // 'facebook' => 'nullable',
+            // 'instagram' => 'nullable',
+            'freeShipping' => 'nullable|numeric',
+            'shippingPartners' => 'nullable|array',
+            'image' => 'image|nullable|max:1999',
+        ]);
         
         $brand = Brand::find($id);
         // return response($brand);
@@ -35,19 +35,19 @@ class BrandController extends Controller
         $brand->shippingPartners = $request->shippingPartners;
         $brand->freeShipping = $request->freeShipping;
         $brand->custom_link = $request->custom_link;
-        // if ($request->image) {
-        // // Might want to add something here to delete the previous image
-        //     $filenameWithExt = $request->file('image')->getClientOriginalName();
-        //     $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
-        //     $extension = $request->file('image')->getClientOriginalExtension();
-        //     $filenameToStore = $filename.'_'.time().'.'.$extension;
-        //     $request->file('image')->storeAs('public/logos', $filenameToStore);
+        if ($request->image) {
+        // Might want to add something here to delete the previous image
+            $filenameWithExt = $request->file('image')->getClientOriginalName();
+            $filename = pathinfo($filenameWithExt, PATHINFO_FILENAME);
+            $extension = $request->file('image')->getClientOriginalExtension();
+            $filenameToStore = $filename.'_'.time().'.'.$extension;
+            $request->file('image')->storeAs('public/logos', $filenameToStore);
         
-        //     $brand->logo = $filenameToStore;
-        // }
+            $brand->logo = $filenameToStore;
+        }
         $brand->save();
 
-        return response('success');
+        return response('success', 201);
     }
 
     public function store(Request $request) {

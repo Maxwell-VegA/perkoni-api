@@ -204,10 +204,31 @@ class ProductController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($id, Request $request)
     {
         $product = Product::findOrFail($id);
-        return new ProductResource($product);
+        $hasAccess = false;
+
+        foreach ($request->user()->brands as $brand) {
+            if ($brand->id === $product->brand_id) {
+                $hasAccess = true;
+                break;
+            }
+        }
+
+        if ($request->user()->is_admin) {
+            $hasAccess = true;
+        }
+
+        if ($product->isPublic && $product->isConfirmed) {
+            return new ProductResource($product);
+        } 
+        elseif ($hasAccess) {
+            return new ProductResource($product);
+        }
+        else {
+            return response('access dennied');
+        }
         // perhaps I should format the types and sizes arrays in php instead of js 
     }
 
