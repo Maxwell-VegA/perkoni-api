@@ -33,6 +33,7 @@ Route::delete('/cart/{id}', [CartController::class, 'delete']);
 
 Route::post('/img', [ImgController::class, 'store']);
 
+Route::get('/brands', [BrandController::class, 'all']);
 Route::get('/brand', [BrandController::class, 'index']);
 Route::post('/brand', [BrandController::class, 'store']);
 Route::post('/brand/{id}', [BrandController::class, 'update']);

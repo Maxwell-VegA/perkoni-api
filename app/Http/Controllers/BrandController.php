@@ -7,6 +7,12 @@ use App\Models\Brand;
 
 class BrandController extends Controller
 {
+    public function all()
+    {
+        $brands = Brand::paginate(12);
+        return ($brands);
+    }
+
     public function index(Request $request)
     {
         $brands = $request->user()->brands;
@@ -17,6 +23,7 @@ class BrandController extends Controller
         
         $this->validate($request, [
             'name' => 'required',
+            'email' => 'nullable|email',
             // 'description' => 'nullable',
             // 'custom_link' => 'nullable',
             // 'facebook' => 'nullable',
@@ -35,6 +42,7 @@ class BrandController extends Controller
         $brand->shippingPartners = $request->shippingPartners;
         $brand->freeShipping = $request->freeShipping;
         $brand->custom_link = $request->custom_link;
+        // $brand->email = $request->email;
         if ($request->image) {
         // Might want to add something here to delete the previous image
             $filenameWithExt = $request->file('image')->getClientOriginalName();
@@ -55,6 +63,7 @@ class BrandController extends Controller
         $this->validate($request, [
             'name' => 'required',
             // 'description' => 'nullable',
+            'email' => 'nullable|email',
             // 'custom_link' => 'nullable',
             // 'facebook' => 'nullable',
             // 'instagram' => 'nullable',
@@ -73,6 +82,7 @@ class BrandController extends Controller
             'user_id' => $request->user()->id,
             'name' => $request->name,
             'description' => $request->description,
+            // 'email' => $request->email,
             'custom_link' => $request->custom_link,
             'facebook' => $request->facebook,
             'instagram' => $request->instagram,

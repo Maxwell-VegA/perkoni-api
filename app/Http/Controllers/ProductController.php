@@ -25,14 +25,19 @@ class ProductController extends Controller
     public function index(Request $request)
     {
 
-        if ($request->category === 'Jaunumi') {
-            $category = ['is_new', '=', 1];
-        }
-        elseif ($request->category === 'Akcijas') {
-            $category = ['on_sale', '=', 1];
+        if ($request->category) {
+            if ($request->category === 'Jaunumi') {
+                $category = ['is_new', '=', 1];
+            }
+            elseif ($request->category === 'Akcijas') {
+                $category = ['on_sale', '=', 1];
+            }
+            else {
+                $category = ['mainCategory', '=', $request->category];
+            }
         }
         else {
-            $category = ['mainCategory', '=', $request->category];
+            $category = false;
         }
 
         $gender = $request->gender;
@@ -50,24 +55,34 @@ class ProductController extends Controller
         // The issue is that I don't have access to variables inside of that that function
         
         $subcategory = $request->subcategory;
+        $brandIds = $request->brandIds;
         $taggs = ['December', 'Easter', 'Spring'];
 
 
+        // if ($brandIds) {
+        //     $products = DB::table('products')
+        //         ->where()
+        // }
 
         $matchesTag = function ($query) {
             $query->where('taggs', 'like', '%'.'December'.'%')
                 ->orWhere('taggs', 'like', '%'.'Easter'.'%')
                 ->orWhere('taggs', 'like', '%'.'Spring'.'%');
-        };
-
+            };
+            
         $products = DB::table('products')
             ->where('isPublic', '=', 1)
             ->where('isConfirmed', '=', 1)
-            ->where($category[0], $category[1], $category[2])
+            ->when($category, function($query, $category) {
+               return $query->where($category[0], $category[1], $category[2]);
+            }) 
             ->when($subcategory, function($query, $subcategory) {
                 return $query->where('subcategory', '=', $subcategory);})
             ->when($gender, function($query, $gender) {
                 return $query->where('gender', 'like', '%'.$gender.'%');})
+            ->when($brandIds, function($query, $brandIds) {
+                return $query->whereIn('brand_id', $brandIds);
+            })
             ->orderBy('on_sale', 'desc')
             ->paginate(12);
 
@@ -79,8 +94,8 @@ class ProductController extends Controller
             return ProductsResource::collection($products);
                 
                 
-            return ProductsCollection::collection($products);
-            return ProductsResource::collection($products);
+            // return ProductsCollection::collection($products);
+            // return ProductsResource::collection($products);
 
     }
     
