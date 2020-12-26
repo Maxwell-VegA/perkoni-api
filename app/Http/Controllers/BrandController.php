@@ -62,8 +62,8 @@ class BrandController extends Controller
         
         $this->validate($request, [
             'name' => 'required',
-            // 'description' => 'nullable',
             'email' => 'nullable|email',
+            // 'description' => 'nullable',
             // 'custom_link' => 'nullable',
             // 'facebook' => 'nullable',
             // 'instagram' => 'nullable',
@@ -82,7 +82,7 @@ class BrandController extends Controller
             'user_id' => $request->user()->id,
             'name' => $request->name,
             'description' => $request->description,
-            // 'email' => $request->email,
+            'email' => $request->email,
             'custom_link' => $request->custom_link,
             'facebook' => $request->facebook,
             'instagram' => $request->instagram,
