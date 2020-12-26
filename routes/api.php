@@ -6,6 +6,7 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ImgController;
 use App\Http\Controllers\BrandController;
 use App\Http\Controllers\CartController;
+use App\Http\Controllers\Authentication\LoginController;
 
 Route::middleware('auth:user')->get('/user', function (Request $request) {
     return $request->user();
@@ -17,6 +18,10 @@ Route::group(['prefix' => 'auth', 'namespace' => 'App\Http\Controllers\Authentic
     Route::post('register', 'RegisterController');
 
     Route::get('user', 'UserController');
+    
+    Route::get('signin/google', [LoginController::class, 'google']);
+    Route::get('signin/google/redirect', [LoginController::class, 'googleRe']);
+    Route::get('signin/facebook/redirect', [LoginController::class, 'facebookRe']);
 });
 
 
