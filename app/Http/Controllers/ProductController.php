@@ -224,24 +224,27 @@ class ProductController extends Controller
         $product = Product::findOrFail($id);
         $hasAccess = false;
 
-        foreach ($request->user()->brands as $brand) {
-            if ($brand->id === $product->brand_id) {
-                $hasAccess = true;
-                break;
+        if ($request->user() && $request->user()->brands) {
+            foreach ($request->user()->brands as $brand) {
+                if ($brand->id === $product->brand_id) {
+                    $hasAccess = true;
+                    break;
+                }
             }
         }
 
-        if ($request->user()->is_admin) {
+        if ($request->user() && $request->user()->is_admin) {
             $hasAccess = true;
         }
 
-        if ($product->isPublic && $product->isConfirmed) {
+        if ($product->isPublic == 1 && $product->isConfirmed == 1) {
             return new ProductResource($product);
         } 
         elseif ($hasAccess) {
             return new ProductResource($product);
         }
         else {
+            // return redirect()->back;
             return response('access dennied');
         }
         // perhaps I should format the types and sizes arrays in php instead of js 
